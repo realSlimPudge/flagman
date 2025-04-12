@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/shared/schmas/registration";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -35,6 +36,13 @@ export default function RegistrationPage() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
+      <Link
+        href="/"
+        className="absolute top-[5%] left-[5%] flex items-center gap-x-3"
+      >
+        <ArrowLeft size={18} />
+        Главная страница
+      </Link>
       <motion.div
         className="shadow-md p-4 border-[1px] border-gray-300 w-10/12 h-fit mx-auto rounded-2xl"
         initial={{ opacity: 0, y: -20 }}
@@ -91,7 +99,7 @@ export default function RegistrationPage() {
             </label>
             <div className="mt-1">
               <input
-                placeholder="+89993332211"
+                placeholder="+79993332211"
                 {...register("phonenumber")}
                 className={`w-full px-3 py-2 border rounded-md ${
                   errors.phonenumber ? "border-red-500" : "border-gray-300"

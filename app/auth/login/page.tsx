@@ -7,6 +7,7 @@ import { Login } from "@/shared/types/types";
 import { loginSchema } from "@/shared/schmas/login";
 import { host } from "@/shared/host/host";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,6 +37,13 @@ export default function LoginPage() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
+      <Link
+        href="/"
+        className="absolute top-[5%] left-[5%] flex items-center gap-x-3"
+      >
+        <ArrowLeft size={18} />
+        Главная страница
+      </Link>
       <motion.div
         className="shadow-md p-4 border-[1px] border-gray-300 w-10/12 h-fit mx-auto rounded-2xl"
         initial={{ opacity: 0, y: -20 }}

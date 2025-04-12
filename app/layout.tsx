@@ -4,6 +4,7 @@ import "./globals.css";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { User } from "lucide-react";
+import NavBar from "@/widgets/NavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,12 +36,15 @@ export default async function RootLayout({
         {userId && (
           <Link
             href={`/user/${userId?.value}`}
-            className="rounded-[100%] absolute transform translate-[-50%,-50%] right-[5%] top-[3%] w-10 h-10 flex justify-center items-center bg-blue-500"
+            className="z-10 rounded-[100%] absolute transform translate-[-50%,-50%] right-[5%] top-[3%] w-10 h-10 flex justify-center items-center bg-gradient-to-r from-blue-500 to-purple-600 "
           >
             <User color="white" />
           </Link>
         )}
-        <div className="min-h-screen max-w-screen  bg-gray-100">{children}</div>
+        <main className="min-h-screen max-w-screen  bg-gray-100">
+          {children}
+        </main>
+        <NavBar />
       </body>
     </html>
   );

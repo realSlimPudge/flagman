@@ -17,7 +17,7 @@ export default async function UserPage({
   const { id: userId } = await params;
 
   try {
-    const res = await fetch(`${host}/user/2`, {
+    const res = await fetch(`${host}/user/${userId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -56,11 +56,10 @@ export default async function UserPage({
     }
 
     const { user }: apiRes = await res.json();
-    console.log(user);
+    // console.log(user);
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          {/* Шапка профиля */}
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 h-32 relative">
             <div className="absolute -bottom-8 left-6">
               <div className="bg-white p-2 rounded-full shadow-lg">
@@ -73,9 +72,7 @@ export default async function UserPage({
             </div>
           </div>
 
-          {/* Основной контент */}
           <div className="pt-16 px-6 pb-8">
-            {/* Заголовок и дата регистрации */}
             <div className="flex flex-col md:flex-row justify-between mb-8">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
@@ -91,7 +88,6 @@ export default async function UserPage({
               </div>
             </div>
 
-            {/* Контактная информация */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h2 className="text-xl font-semibold mb-4 flex items-center">
@@ -112,7 +108,6 @@ export default async function UserPage({
                 </div>
               </div>
 
-              {/* Организации */}
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h2 className="text-xl font-semibold mb-4 flex items-center">
                   <Building2 className="w-5 h-5 mr-2 text-green-600" />
