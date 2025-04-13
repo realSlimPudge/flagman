@@ -5,6 +5,7 @@ import { host } from "@/shared/host/host";
 import { User } from "@/shared/types/types";
 import { useState } from "react";
 import useSWR from "swr";
+import { useParams } from "next/navigation";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url, {
@@ -23,16 +24,16 @@ export default function DocumentCreate() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  const { id } = useParams<{ id: string }>();
+
   const {
     data: usersData,
     error: usersError,
     isLoading: usersLoading,
-  } = useSWR<{ data: User[] }>(`${host}/user/all`, fetcher, {
+  } = useSWR<{ data: User[] }>(`${host}/user/list?entrID=${id}`, fetcher, {
     revalidateOnFocus: false,
-    refreshInterval: 20000,
   });
 
-  console.log(selectAll);
   const handleUserSelect = (userId: number) => {
     setSelectedUsers((prev) => {
       const newSelection = prev.includes(userId)
@@ -44,7 +45,7 @@ export default function DocumentCreate() {
       }
       return newSelection;
     });
-    console.log(selectedUsers);
+    console.log(selectAll);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

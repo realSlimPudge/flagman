@@ -1,42 +1,43 @@
 "use client";
+import { motion } from "motion/react";
 import { host } from "@/shared/host/host";
-import { Document } from "@/shared/types/types";
-import { useEffect, useState } from "react";
+import { DocumentRecipient } from "@/shared/types/types";
+import Link from "next/link";
+import useSWR from "swr";
 
 interface DocumentWidgetProps {
   status: "pending" | "signed" | "rejected";
   title: string;
+  delay: number;
 }
+const fetcher = async (url: string) => {
+  const res = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Произошла ошибка");
+  return res.json();
+};
 
-export const DocumentWidget = ({ status, title }: DocumentWidgetProps) => {
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      try {
-        const response = await fetch(`${host}/document/list?status=${status}`, {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!response.ok) throw new Error("Ошибка загрузки документов");
-
-        const data = await response.json();
-        setDocuments(data.data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Неизвестная ошибка");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDocuments();
-  }, [status]);
-  useEffect(() => {
-    console.log(documents);
-  }, [documents]);
+export const DocumentWidget = ({
+  status,
+  title,
+  delay,
+}: DocumentWidgetProps) => {
+  const {
+    data: responseData,
+    error,
+    isLoading,
+  } = useSWR<{ data: DocumentRecipient[] }>(
+    `${host}/document/list?status=${status}`,
+    fetcher,
+    {
+      refreshInterval: 20000,
+      revalidateOnFocus: false,
+      dedupingInterval: 5000,
+    },
+  );
+  const documents = responseData?.data || [];
   const getStatusColor = () => {
     switch (status) {
       case "pending":
@@ -49,13 +50,18 @@ export const DocumentWidget = ({ status, title }: DocumentWidgetProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+    <motion.article
+      className="bg-white rounded-lg shadow-md p-6 mb-6"
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: delay }}
+    >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xl font-semibold">{title}</h3>
         <div className={`w-3 h-3 rounded-full ${getStatusColor()}`}></div>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <div className="text-gray-500">Загрузка...</div>
       ) : error ? (
         <div className="text-red-500">{error}</div>
@@ -67,17 +73,26 @@ export const DocumentWidget = ({ status, title }: DocumentWidgetProps) => {
             documents.map((doc) => (
               <div
                 key={doc.ID}
-                className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                className="p-4 border border-gray-400 rounded-lg hover:border-purple-400 transition-colors"
               >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-medium">{doc.Title}</h4>
-                    <p className="text-sm text-gray-500">
-                      {doc.Sender.FullName}
-                    </p>
+                <Link
+                  href={{
+                    pathname: `/document/list/${doc.ID}`,
+                  }}
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="font-medium">{doc.Document.Title}</h4>
+                      <p className="text-sm text-gray-500">
+                        {doc.Document.Sender.FullName}
+                      </p>
+                    </div>
+                    <span className="text-sm text-gray-500">
+                      {new Date(doc.Document.CreatedAt).toLocaleDateString() ||
+                        "Нет даты"}
+                    </span>
                   </div>
-                  <span className="text-sm text-gray-500">{doc.CreatedAt}</span>
-                </div>
+                </Link>
               </div>
             ))
           ) : (
@@ -85,6 +100,6 @@ export const DocumentWidget = ({ status, title }: DocumentWidgetProps) => {
           )}
         </div>
       )}
-    </div>
+    </motion.article>
   );
 };

@@ -39,7 +39,7 @@ export default function LoginPage() {
     <div className="w-screen h-screen flex justify-center items-center">
       <Link
         href="/"
-        className="absolute top-[5%] left-[5%] flex items-center gap-x-3"
+        className="absolute top-[4%] left-[5%] flex items-center gap-x-3"
       >
         <ArrowLeft size={18} />
         Главная страница
@@ -100,7 +100,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors ${
+              className={`w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors ${
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >

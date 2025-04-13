@@ -38,7 +38,7 @@ export default function RegistrationPage() {
     <div className="w-screen h-screen flex justify-center items-center">
       <Link
         href="/"
-        className="absolute top-[5%] left-[5%] flex items-center gap-x-3"
+        className="absolute top-[4%] left-[5%] flex items-center gap-x-3"
       >
         <ArrowLeft size={18} />
         Главная страница
@@ -61,9 +61,8 @@ export default function RegistrationPage() {
               <input
                 placeholder="example@gmail.com"
                 {...register("email")}
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-3 py-2 border rounded-md ${errors.email ? "border-red-500" : "border-gray-300"
+                  }`}
               />
               {errors.email && (
                 <p className="mt-1 text-sm text-red-600">
@@ -81,9 +80,8 @@ export default function RegistrationPage() {
               <input
                 placeholder="Иванов Иван Иванович"
                 {...register("fullname")}
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.fullname ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-3 py-2 border rounded-md ${errors.fullname ? "border-red-500" : "border-gray-300"
+                  }`}
               />
               {errors.fullname && (
                 <p className="mt-1 text-sm text-red-600">
@@ -101,9 +99,8 @@ export default function RegistrationPage() {
               <input
                 placeholder="+79993332211"
                 {...register("phonenumber")}
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.phonenumber ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-3 py-2 border rounded-md ${errors.phonenumber ? "border-red-500" : "border-gray-300"
+                  }`}
               />
               {errors.phonenumber && (
                 <p className="mt-1 text-sm text-red-600">
@@ -122,9 +119,8 @@ export default function RegistrationPage() {
                 type="password"
                 placeholder="••••••••"
                 {...register("password")}
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-3 py-2 border rounded-md ${errors.password ? "border-red-500" : "border-gray-300"
+                  }`}
               />
               {errors.password && (
                 <p className="mt-1 text-sm text-red-600">
@@ -137,7 +133,7 @@ export default function RegistrationPage() {
           <div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
             >
               Зарегистрироваться
             </button>
